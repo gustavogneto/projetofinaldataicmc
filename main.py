@@ -54,19 +54,6 @@ class Modelo():
         print(f"X_test: {self.X_test.shape}")
 
     def Treinamento(self):
-        """
-        Treina o modelo de machine learning.
-
-        Detalhes:
-            * Utilize a função `train_test_split` para dividir os dados em treinamento e teste.
-            * Escolha o modelo de machine learning que queira usar. Lembrando que não precisa ser SMV e Regressão linear.
-            * Experimente técnicas de validação cruzada (cross-validation) para melhorar a acurácia final.
-        
-        Nota: Esta função deve ser ajustada conforme o modelo escolhido.
-        """
-        pass
-
-    def Treinamento(self):
        
         # Validação cruzada para SVM
         svm_scores = cross_val_score(self.svm_model, self.X_train, self.y_train, cv=5)
@@ -77,12 +64,16 @@ class Modelo():
 
     def Teste(self):
         """
-        Avalia o desempenho do modelo treinado nos dados de teste.
-
-        Esta função deve ser implementada para testar o modelo e calcular métricas de avaliação relevantes, 
-        como acurácia, precisão, ou outras métricas apropriadas ao tipo de problema.
+        Avalia o desempenho dos modelos treinados
         """
-        pass
+        # Avaliação do SVM
+        svm_pred = self.svm_model.predict(self.X_test)
+        print("\nResultados do SVM:")
+        print("Acurácia:", accuracy_score(self.y_test, svm_pred))
+        print("\nRelatório de Classificação - SVM:")
+        print(classification_report(self.y_test, svm_pred, 
+                                 target_names=self.le.classes_))
+        
 
     def Train(self):
         """
