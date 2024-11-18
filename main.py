@@ -30,17 +30,26 @@ class Modelo():
     def TratamentoDeDados(self):
         """
         Realiza o pré-processamento dos dados carregados.
-
-        Sugestões para o tratamento dos dados:
-            * Utilize `self.df.head()` para visualizar as primeiras linhas e entender a estrutura.
-            * Verifique a presença de valores ausentes e faça o tratamento adequado.
-            * Considere remover colunas ou linhas que não são úteis para o treinamento do modelo.
-        
-        Dicas adicionais:
-            * Explore gráficos e visualizações para obter insights sobre a distribuição dos dados.
-            * Certifique-se de que os dados estão limpos e prontos para serem usados no treinamento do modelo.
         """
-        pass
+        # Verificar valores ausentes
+        print("\nVerificando valores ausentes:")
+        print(self.df.isnull().sum())
+        
+        # Codificar a variável target (Species)
+        self.df['Species_encoded'] = self.le.fit_transform(self.df['Species'])
+        
+        # Separar features e target
+        X = self.df[['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']]
+        y = self.df['Species_encoded']
+        
+        # Dividir os dados em treino e teste
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+            X, y, test_size=0.2, random_state=42
+        )
+        
+        print("\nDimensões após divisão:")
+        print(f"X_train: {self.X_train.shape}")
+        print(f"X_test: {self.X_test.shape}")
 
     def Treinamento(self):
         """
