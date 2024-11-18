@@ -35,17 +35,19 @@ class Modelo():
         print("\nVerificando valores ausentes:")
         print(self.df.isnull().sum())
         
-        # Codificar a variável target (Species)
-        self.df['Species_encoded'] = self.le.fit_transform(self.df['Species'])
+        # Codificar a variável alvo (Species)
+        self.df['Species_codificadas'] = self.le.fit_transform(self.df['Species'])
         
-        # Separar features e target
+        # Separar features e alvo
         X = self.df[['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']]
-        y = self.df['Species_encoded']
+        y = self.df['Species_codificadas']
         
         # Dividir os dados em treino e teste
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
             X, y, test_size=0.2, random_state=42
         )
+        
+        # mantido do codigo base
         
         print("\nDimensões após divisão:")
         print(f"X_train: {self.X_train.shape}")
@@ -63,6 +65,15 @@ class Modelo():
         Nota: Esta função deve ser ajustada conforme o modelo escolhido.
         """
         pass
+
+    def Treinamento(self):
+       
+        # Validação cruzada para SVM
+        svm_scores = cross_val_score(self.svm_model, self.X_train, self.y_train, cv=5)
+        print("\nResultados da Validação Cruzada - SVM:")
+        print(f"Acuracia média: {svm_scores.mean():.4f} (+/- {svm_scores.std() * 2:.4f})")
+        
+        
 
     def Teste(self):
         """
