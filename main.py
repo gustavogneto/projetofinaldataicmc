@@ -1,24 +1,32 @@
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.model_selection import cross_val_score
 
 class Modelo():
     def __init__(self):
-        pass
+        self.svm_model = None
+        self.lr_model = None
+        self.le = LabelEncoder()
+        self.X_train = None
+        self.X_test = None
+        self.y_train = None
+        self.y_test = None
 
     def CarregarDataset(self, path):
         """
         Carrega o conjunto de dados a partir de um arquivo CSV.
-
-        Parâmetros:
-        - path (str): Caminho para o arquivo CSV contendo o dataset.
-        
-        O dataset é carregado com as seguintes colunas: SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm e Species.
         """
         names = ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species']
         self.df = pd.read_csv(path, names=names)
-
+        print("Dataset carregado com sucesso. Shape:", self.df.shape)
+        print("\nPrimeiras 5 linhas do dataset:")
+        print(self.df.head())
+        
     def TratamentoDeDados(self):
         """
         Realiza o pré-processamento dos dados carregados.
