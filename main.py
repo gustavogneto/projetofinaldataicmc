@@ -56,9 +56,12 @@ class Modelo():
     def Treinamento(self):
        
         # Validação cruzada para SVM
+        self.svm_model = SVC(kernel='rbf', random_state=42)
+        self.svm_model.fit(self.X_train, self.y_train)
+       
         svm_scores = cross_val_score(self.svm_model, self.X_train, self.y_train, cv=5)
         print("\nResultados da Validação Cruzada - SVM:")
-        print(f"Acuracia média: {svm_scores.mean():.4f} (+/- {svm_scores.std() * 2:.4f})")
+        print(f"Accuracy média: {svm_scores.mean():.4f} (+/- {svm_scores.std() * 2:.4f})")
         
         
 
@@ -86,13 +89,16 @@ class Modelo():
             * O dataset padrão é "iris.data", mas o caminho pode ser ajustado.
             * Caso esteja executando fora do Colab e enfrente problemas com o path, use a biblioteca `os` para gerenciar caminhos de arquivos.
         """
-        self.CarregarDataset("iris.data")  # Carrega o dataset especificado.
+        
+        print("Iniciando o pipeline de treinamento...")
+        self.CarregarDataset("iris.data") # Carrega o dataset especificado.
+        self.TratamentoDeDados() # Tratamento de dados opcional, pode ser comentado se não for necessário
+        self.Treinamento() # Executa o treinamento do modelo
+        self.Teste()
+        print("\nPipeline de treinamento concluído!") 
+        
 
-        # Tratamento de dados opcional, pode ser comentado se não for necessário
-        self.TratamentoDeDados()
-
-        self.Treinamento()  # Executa o treinamento do modelo
-
-# Lembre-se de instanciar as classes após definir suas funcionalidades
-# Recomenda-se criar ao menos dois modelos (e.g., Regressão Linear e SVM) para comparar o desempenho.
-# A biblioteca já importa LinearRegression e SVC, mas outras escolhas de modelo são permitidas.
+# Execução de programa 
+if __name__ == "__main__":
+    modelo = Modelo()
+    modelo.Train()
