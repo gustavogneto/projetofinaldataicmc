@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import Acuracia_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import cross_val_score
 
 class Modelo():
@@ -80,11 +80,18 @@ class Modelo():
         # Avaliação do SVM
         svm_pred = self.svm_model.predict(self.X_test)
         print("\nResultados do SVM:")
-        print("Acurácia:", Acuracia_score(self.y_test, svm_pred))
+        print("Acurácia:", accuracy_score(self.y_test, svm_pred))
         print("\nRelatório de Classificação - SVM:")
         print(classification_report(self.y_test, svm_pred, 
                                  target_names=self.le.classes_))
         
+        # Avaliação da Regressão Logística
+        lr_pred = self.lr_model.predict(self.X_test)
+        print("\nResultados da Regressão Logística:")
+        print("Acurácia:", accuracy_score(self.y_test, lr_pred))
+        print("\nRelatório de Classificação - Regressão Logística:")
+        print(classification_report(self.y_test, lr_pred, 
+                                 target_names=self.le.classes_))
 
     def Train(self):
         """
