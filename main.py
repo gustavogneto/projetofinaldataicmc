@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import Acuracia_score, classification_report
 from sklearn.model_selection import cross_val_score
 
 class Modelo():
@@ -61,9 +61,17 @@ class Modelo():
        
         svm_scores = cross_val_score(self.svm_model, self.X_train, self.y_train, cv=5)
         print("\nResultados da Validação Cruzada - SVM:")
-        print(f"Accuracy média: {svm_scores.mean():.4f} (+/- {svm_scores.std() * 2:.4f})")
+        print(f"Acuracia média: {svm_scores.mean():.4f} (+/- {svm_scores.std() * 2:.4f})")
         
+        # Modelo 2: Regressão Logística (mais apropriado que Regressão Linear para classificação)
+        self.lr_model = LogisticRegression(random_state=42, max_iter=1000)
+        self.lr_model.fit(self.X_train, self.y_train)
         
+        # Validação cruzada para Regressão Logística
+        lr_scores = cross_val_score(self.lr_model, self.X_train, self.y_train, cv=5)
+        print("\nResultados da Validação Cruzada - Regressão Logística:")
+        print(f"Acuracia média: {lr_scores.mean():.4f} (+/- {lr_scores.std() * 2:.4f})")
+
 
     def Teste(self):
         """
@@ -72,7 +80,7 @@ class Modelo():
         # Avaliação do SVM
         svm_pred = self.svm_model.predict(self.X_test)
         print("\nResultados do SVM:")
-        print("Acurácia:", accuracy_score(self.y_test, svm_pred))
+        print("Acurácia:", Acuracia_score(self.y_test, svm_pred))
         print("\nRelatório de Classificação - SVM:")
         print(classification_report(self.y_test, svm_pred, 
                                  target_names=self.le.classes_))
